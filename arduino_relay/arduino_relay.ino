@@ -7,7 +7,10 @@
 
 #include <CommandReader.h>
 
-int led = 13;
+int cp_off = 12;
+int cp_on = 11;
+int dp_off = 6;
+int dp_on = 5;
 
 // Helper function to wrap singleton.
 CommandReader& reader() {
@@ -16,11 +19,21 @@ CommandReader& reader() {
 
 // Perform turning a led on or off based on commanded text.
 void commandHandler(const String& command) {
-  if (command.equals("turn on led") ) {
-    digitalWrite(led, HIGH);
+  if (command.equals("cp on") ) {
+    digitalWrite(cp_on, HIGH);
+    digitalWrite(cp_off, LOW);
   }
-  else if (command.equals("turn off led") ) {
-    digitalWrite(led, LOW);
+  else if (command.equals("cp off") ) {
+    digitalWrite(cp_on, LOW);
+    digitalWrite(cp_off, HIGH);
+  }
+  else if (command.equals("dp on") ) {
+    digitalWrite(dp_on, HIGH);
+    digitalWrite(dp_off, LOW);
+  }
+  else if (command.equals("dp off") ) {
+    digitalWrite(dp_on, LOW);
+    digitalWrite(dp_off, HIGH);
   }
   else {
     Serial.println("Unrecognized command.");
@@ -29,11 +42,12 @@ void commandHandler(const String& command) {
 
 void setup() {                
   // Initialize the digital pin as an output for a LED.
-  pinMode(led, OUTPUT);
-  
-  // Initialize the serial port.
-  Serial.begin(9600);
-  Serial.println("Arduino powered on.");
+  pinMode(cp_on, OUTPUT);
+  pinMode(cp_off, OUTPUT);
+  pinMode(dp_on, OUTPUT);
+  pinMode(dp_off, OUTPUT);
+  commandHandler("cp off");
+  commandHandler("dp off");
 }
 
 void loop() {

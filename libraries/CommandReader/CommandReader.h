@@ -23,12 +23,13 @@ class CommandReader {
       unsigned int byteCount = 0;
       char inputByte = 0;
       while(byteCount == 0) {
-        delay(200);
+        delay(500);
         // Read from serial one byte at a time and append to string.
         while ( Serial.available() > 0 && byteCount <= kMaxCommandSizeInBytes ) {
           inputByte = Serial.read();
           command[byteCount] = inputByte;
           byteCount++;
+          delay(50);
         }
         // Ensure last byte is null terminated.
         command[byteCount] = 0;
